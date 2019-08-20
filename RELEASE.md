@@ -73,6 +73,8 @@
 *   Depends on `tensorflow-transform>=0.14.0,<0.15`
 *   Added support for Python 3.6 and 3.7.
 *   Fixed issue #463 correcting syntax in SCHEMA_EMPTY message.
+*   Updated Chicago Taxi example dependencies to Beam 2.14.0, Flink 1.8.1, Spark
+    2.4.3.
 
 ## Breaking changes
 
