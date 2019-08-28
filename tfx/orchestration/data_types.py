@@ -118,3 +118,9 @@ class RuntimeParameter(object):
     self.name = name
     self.ptype = ptype
     self.description = description
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) \
+      and self.name == other.name \
+      and self.ptype == other.ptype \
+      and self.description == other.description
