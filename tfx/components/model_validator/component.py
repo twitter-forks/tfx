@@ -69,7 +69,7 @@ class ModelValidator(base_component.BaseComponent):
                examples: types.Channel,
                model: types.Channel,
                blessing: Optional[types.Channel] = None,
-               instance_name: Optional[Text] = None):
+               name: Optional[Text] = None):
     """Construct a ModelValidator component.
 
     Args:
@@ -81,12 +81,12 @@ class ModelValidator(base_component.BaseComponent):
         _required_
       blessing: Output channel of 'ModelBlessingPath' that contains the
         validation result.
-      instance_name: Optional name assigned to this specific instance of
-        ModelValidator.  Required only if multiple ModelValidator components are
-        declared in the same pipeline.
+      name: Name assigned to this specific instance of ModelValidator.  Required
+        only if multiple ModelValidator components are declared in the same
+        pipeline.
     """
     blessing = blessing or types.Channel(
         type=standard_artifacts.ModelBlessing,
         artifacts=[standard_artifacts.ModelBlessing()])
     spec = ModelValidatorSpec(examples=examples, model=model, blessing=blessing)
-    super(ModelValidator, self).__init__(spec=spec, instance_name=instance_name)
+    super(ModelValidator, self).__init__(spec=spec, name=name)

@@ -57,8 +57,9 @@ class _QueryBasedExampleGen(base_component.BaseComponent):
                input_config: example_gen_pb2.Input,
                output_config: Optional[example_gen_pb2.Output] = None,
                custom_config: Optional[example_gen_pb2.CustomConfig] = None,
+               component_name: Optional[Text] = 'ExampleGen',
                example_artifacts: Optional[types.Channel] = None,
-               instance_name: Optional[Text] = None):
+               name: Optional[Text] = None):
     """Construct an QueryBasedExampleGen component.
 
     Args:
@@ -72,10 +73,13 @@ class _QueryBasedExampleGen(base_component.BaseComponent):
       custom_config: An
         [example_gen_pb2.CustomConfig](https://github.com/tensorflow/tfx/blob/master/tfx/proto/example_gen.proto)
         instance, providing custom configuration for ExampleGen.
+      component_name: Name of the component.  This should be unique per
+        component class. Default to 'ExampleGen' and may be overwritten by
+        subclasses.
       example_artifacts: Channel of 'ExamplesPath' for output train and
         eval examples.
-      instance_name: Optional unique instance name. Required only if multiple
-        ExampleGen components are declared in the same pipeline.
+      name: Unique name. Required only if multiple ExampleGen components are
+        declared in the same pipeline.
     """
     # Configure outputs.
     output_config = output_config or utils.make_default_output_config(
@@ -90,8 +94,7 @@ class _QueryBasedExampleGen(base_component.BaseComponent):
         output_config=output_config,
         custom_config=custom_config,
         examples=example_artifacts)
-    super(_QueryBasedExampleGen, self).__init__(
-        spec=spec, instance_name=instance_name)
+    super(_QueryBasedExampleGen, self).__init__(spec=spec, name=name)
 
 
 class FileBasedExampleGen(base_component.BaseComponent):
@@ -124,10 +127,11 @@ class FileBasedExampleGen(base_component.BaseComponent):
       input_config: Optional[example_gen_pb2.Input] = None,
       output_config: Optional[example_gen_pb2.Output] = None,
       custom_config: Optional[example_gen_pb2.CustomConfig] = None,
+      component_name: Optional[Text] = 'ExampleGen',
       example_artifacts: Optional[types.Channel] = None,
       custom_executor_spec: Optional[executor_spec.ExecutorSpec] = None,
       input: Optional[types.Channel] = None,  # pylint: disable=redefined-builtin
-      instance_name: Optional[Text] = None):
+      name: Optional[Text] = None):
     """Construct a FileBasedExampleGen component.
 
     Args:
@@ -143,13 +147,16 @@ class FileBasedExampleGen(base_component.BaseComponent):
         'eval' with size 2:1.
       custom_config: An optional example_gen_pb2.CustomConfig instance,
         providing custom configuration for executor.
+      component_name: Name of the component, should be unique per component
+        class. Do not use -- will be deprecated in a future release.
       example_artifacts: Channel of 'ExamplesPath' for output train and
         eval examples.
       custom_executor_spec: Optional custom executor spec overriding the default
         executor spec specified in the component attribute.
       input: Future replacement of the 'input_base' argument.
-      instance_name: Optional unique instance name. Required only if multiple
-        ExampleGen components are declared in the same pipeline.
+      name: Name assigned to this specific instance of FileBasedExampleGen.
+        Required only if multiple FileBasedExampleGen components are declared in
+        the same pipeline.
 
       Either `input_base` or `input` must be present in the input arguments.
     """
@@ -170,6 +177,4 @@ class FileBasedExampleGen(base_component.BaseComponent):
         custom_config=custom_config,
         examples=example_artifacts)
     super(FileBasedExampleGen, self).__init__(
-        spec=spec,
-        custom_executor_spec=custom_executor_spec,
-        instance_name=instance_name)
+        spec=spec, custom_executor_spec=custom_executor_spec, name=name)

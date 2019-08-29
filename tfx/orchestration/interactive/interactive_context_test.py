@@ -92,6 +92,7 @@ class InteractiveContextTest(tf.test.TestCase):
   def testBasicRun(self):
 
     class _FakeComponentSpec(types.ComponentSpec):
+      COMPONENT_NAME = '_FakeComponent'
       PARAMETERS = {}
       INPUTS = {}
       OUTPUTS = {}
@@ -125,6 +126,7 @@ class InteractiveContextTest(tf.test.TestCase):
   def testUnresolvedChannel(self):
 
     class _FakeComponentSpec(types.ComponentSpec):
+      COMPONENT_NAME = '_FakeComponent'
       PARAMETERS = {}
       INPUTS = {'input': component_spec.ChannelParameter(type_name='Foo')}
       OUTPUTS = {}
