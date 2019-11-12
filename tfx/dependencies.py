@@ -29,7 +29,7 @@ def make_required_install_packages():
       'protobuf>=3.7,<4',
       'pyyaml>=3.12,<4',
       'six>=1.10,<2',
-      'tensorflow>=1.15,<3',
+      #'tensorflow>=1.15,<3',
       'tensorflow-data-validation>=0.15,<0.16',
       'tensorflow-model-analysis>=0.15.2,<0.16',
       'tensorflow-transform>=0.15,<0.16',
