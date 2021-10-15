@@ -70,7 +70,8 @@ class BaseComponent(object):
       tfx_image: Text,
       kubeflow_metadata_config: Optional[kubeflow_pb2.KubeflowMetadataConfig],
       component_config: base_component_config.BaseComponentConfig,
-      pod_labels_to_attach: Optional[Dict[Text, Text]] = None):
+      pod_labels_to_attach: Optional[Dict[Text, Text]] = None,
+      metadata_ui_path: str = '/mlpipeline-ui-metadata.json'):
     """Creates a new Kubeflow-based component.
 
     This class essentially wraps a dsl.ContainerOp construct in Kubeflow
@@ -91,6 +92,7 @@ class BaseComponent(object):
       component_config: Component config to launch the component.
       pod_labels_to_attach: Optional dict of pod labels to attach to the
         GKE pod.
+      metadata_ui_path: File location for metadata-ui-metadata.json file.
     """
     component_launcher_class_path = '.'.join([
         component_launcher_class.__module__, component_launcher_class.__name__
@@ -117,6 +119,8 @@ class BaseComponent(object):
         serialized_component,
         '--component_config',
         json_utils.dumps(component_config),
+        '--metadata_ui_path',
+        metadata_ui_path,
     ]
 
     if pipeline.enable_cache:
@@ -128,7 +132,7 @@ class BaseComponent(object):
         image=tfx_image,
         arguments=arguments,
         output_artifact_paths={
-            'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json',
+            'mlpipeline-ui-metadata': metadata_ui_path,
         },
     )
 
