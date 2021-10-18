@@ -14,9 +14,6 @@ jobs:
       image: gcr.io/tfx-oss-public/tfx_base:py37-20200729
     steps:
     - uses: actions/checkout@v2
-  
-    # Used to host cibuildwheel
-    - uses: actions/setup-python@v2
 
     - name: Build wheels
       run: |
