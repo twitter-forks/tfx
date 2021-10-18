@@ -75,7 +75,8 @@ class BaseComponent(object):
       kubeflow_metadata_config: kubeflow_pb2.KubeflowMetadataConfig,
       tfx_ir: pipeline_pb2.Pipeline,
       pod_labels_to_attach: Dict[Text, Text],
-      runtime_parameters: List[data_types.RuntimeParameter]):
+      runtime_parameters: List[data_types.RuntimeParameter]),
+      metadata_ui_path: str = '/mlpipeline-ui-metadata.json'):
     """Creates a new Kubeflow-based component.
 
     This class essentially wraps a dsl.ContainerOp construct in Kubeflow
@@ -93,6 +94,7 @@ class BaseComponent(object):
       tfx_ir: The TFX intermedia representation of the pipeline.
       pod_labels_to_attach: Dict of pod labels to attach to the GKE pod.
       runtime_parameters: Runtime parameters of the pipeline.
+      metadata_ui_path: File location for metadata-ui-metadata.json file.
     """
 
     utils.replace_placeholder(component)
@@ -113,6 +115,8 @@ class BaseComponent(object):
         # exeeds the flag size limit.
         '--tfx_ir',
         json_format.MessageToJson(tfx_ir),
+        '--metadata_ui_path',
+        metadata_ui_path
     ]
 
     for param in runtime_parameters:
@@ -125,7 +129,7 @@ class BaseComponent(object):
         image=tfx_image,
         arguments=arguments,
         output_artifact_paths={
-            'mlpipeline-ui-metadata': '/mlpipeline-ui-metadata.json',
+            'mlpipeline-ui-metadata': metadata_ui_path,
         },
     )
 
