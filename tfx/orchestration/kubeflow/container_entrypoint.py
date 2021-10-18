@@ -208,7 +208,9 @@ def _render_artifact_as_mdstr(single_artifact: artifact.Artifact) -> Text:
 
 
 def _dump_ui_metadata(component: base_node.BaseNode,
-                      execution_info: data_types.ExecutionInfo) -> None:
+                      execution_info: data_types.ExecutionInfo,
+                      metadata_ui_path: str = '/mlpipeline-ui-metadata.json'
+                      ) -> None:
   """Dump KFP UI metadata json file for visualization purpose.
 
   For general components we just render a simple Markdown file for
@@ -288,7 +290,7 @@ def _dump_ui_metadata(component: base_node.BaseNode,
 
   metadata = {'outputs': outputs}
 
-  with open('/mlpipeline-ui-metadata.json', 'w') as f:
+  with open(metadata_ui_path, 'w') as f:
     json.dump(metadata, f)
 
 
@@ -301,6 +303,7 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--pipeline_name', type=str, required=True)
   parser.add_argument('--pipeline_root', type=str, required=True)
+  parser.add_argument('--metadata_ui_path', type=str, required=False, default='/mlpipeline-ui-metadata.json')
   parser.add_argument('--kubeflow_metadata_config', type=str, required=True)
   parser.add_argument('--beam_pipeline_args', type=str, required=True)
   parser.add_argument('--additional_pipeline_args', type=str, required=True)
@@ -353,7 +356,7 @@ def main():
     execution_info = launcher.launch()
 
   # Dump the UI metadata.
-  _dump_ui_metadata(component, execution_info)
+  _dump_ui_metadata(pipeline_node, execution_info, args.metadata_ui_path)
 
 
 if __name__ == '__main__':
