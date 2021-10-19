@@ -356,7 +356,7 @@ def main():
     execution_info = launcher.launch()
 
   # Dump the UI metadata.
-  _dump_ui_metadata(pipeline_node, execution_info, args.metadata_ui_path)
+  _dump_ui_metadata(component, execution_info, args.metadata_ui_path)
 
 
 if __name__ == '__main__':
