@@ -75,7 +75,7 @@ class BaseComponent(object):
       kubeflow_metadata_config: kubeflow_pb2.KubeflowMetadataConfig,
       tfx_ir: pipeline_pb2.Pipeline,
       pod_labels_to_attach: Dict[Text, Text],
-      runtime_parameters: List[data_types.RuntimeParameter]),
+      runtime_parameters: List[data_types.RuntimeParameter],
       metadata_ui_path: str = '/mlpipeline-ui-metadata.json'):
     """Creates a new Kubeflow-based component.
 
